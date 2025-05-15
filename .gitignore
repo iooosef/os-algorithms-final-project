@@ -136,4 +136,5 @@ dist
 .pnp.*
 
 # db
-*/backend/db.sqlite
+*/backend/DATABASE.sqlite
+*.sqlite
