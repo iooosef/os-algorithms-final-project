@@ -1,7 +1,10 @@
-function authMiddleware(requiredRole = null) {
+function authMiddleware(requiredRoles = null) {
   return function (req, res, next) {
     if (req.session && req.session.user) {
-      if (requiredRole && req.session.user.role !== requiredRole) {
+      if (
+        requiredRoles &&
+        !requiredRoles.includes(req.session.user.role)
+      ) {
         return res.status(403).json({ error: 'Forbidden' });
       }
       return next();

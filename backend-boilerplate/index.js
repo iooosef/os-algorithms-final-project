@@ -30,7 +30,7 @@ app.get('/test', (req, res) => {
   res.send("Hello World");
 });
 
-app.get('/admin', authMiddleware('admin'), (req, res) => {
+app.get('/admin', authMiddleware(['admin']), (req, res) => {
   res.send('Admin Test');
 });
 
