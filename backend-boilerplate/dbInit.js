@@ -44,7 +44,7 @@ function initDb(db) {
               project_id INTEGER NOT NULL,
               title TEXT NOT NULL,
               description TEXT,
-              priority TEXT NOT NULL,
+              priority INTEGER NOT NULL,
               status TEXT NOT NULL,
               created_by INTEGER NOT NULL,
               assigned_to INTEGER,

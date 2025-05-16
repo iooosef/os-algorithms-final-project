@@ -29,6 +29,11 @@ app.use('/auth', authRoutes);
 app.get('/test', (req, res) => {
   res.send("Hello World");
 });
+
+app.get('/admin', authMiddleware('admin'), (req, res) => {
+  res.send('Admin Test');
+});
+
 app.get('/me', (req, res) => {
   if (req.session && req.session.user) {
     res.json({ user: req.session.user });
