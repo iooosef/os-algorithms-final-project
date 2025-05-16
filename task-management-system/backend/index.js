@@ -14,6 +14,7 @@ const dbFile = './db.sqlite'
 const authRoutes = require('./controller/auth')(db);
 const ticketRoutes = require('./controller/ticket')(db);
 const projectRoutes = require('./controller/project')(db);
+const userRoutes = require('./controller/user')(db);
 
 initDb(db, dbFile);
 
@@ -29,6 +30,7 @@ app.use(session({
 app.use('/auth', authRoutes);
 app.use('/ticket', authMiddleware(['admin', 'user']), ticketRoutes);
 app.use('/project', authMiddleware(['admin', 'user']), projectRoutes);
+app.use('/user', authMiddleware(['admin', 'user']), userRoutes);
 
 app.get('/test', (req, res) => {
   res.send("Hello World");
