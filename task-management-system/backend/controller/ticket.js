@@ -13,5 +13,15 @@ module.exports = (db) => {
         });
     });
 
+    router.get('/', (req, res) => {
+        const tix_id = parseInt(req.query.id);
+        if (!tix_id) return res.status(400).json({ error: 'Missing id' });
+
+        db.get(`SELECT * FROM Tickets WHERE ticket_id = ?`, [tix_id], (err, tix) => {
+            if (err) return res.status(500).json({ error: 'Database error' });
+            res.json(tix || {}); // Return empty object if no ticket found
+        });
+    })
+
     return router;
 }
