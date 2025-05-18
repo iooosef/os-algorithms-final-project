@@ -25,6 +25,9 @@ const Header = (props) => {
                 <li>
                     <a class={`dropdown-item ${props.activeHref === '/projects' ? 'dropdown-active' : ''}`} href="/projects">Projects</a>
                 </li>
+                <li>
+                    <a class={`dropdown-item ${props.activeHref === '/gantt' ? 'dropdown-active' : ''}`} href="/gantt">Gantt Chart</a>
+                </li>
                 <li class="dropdown-footer gap-2">
                 <a href='/logout' class="btn btn-error btn-soft btn-block">Sign out</a>
                 </li>
