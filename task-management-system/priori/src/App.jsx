@@ -1,7 +1,6 @@
 
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import FlyonUIComponents from './FlyonUIComponents';
 
 import ProtectedRoutes from './auth/ProtectedRoutes';
 import Login from "./Login";
