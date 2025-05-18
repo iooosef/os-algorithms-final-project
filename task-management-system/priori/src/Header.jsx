@@ -3,7 +3,7 @@ import { useUser } from './auth/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { BurgerIco } from './icons/BurgerIco';
 import 'flyonui'
-const Header = (activeHref) => {
+const Header = (props) => {
     const { user } = useUser();
     const navigate = useNavigate();
     return (
@@ -20,10 +20,10 @@ const Header = (activeHref) => {
             <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-footer">
                 <li>
                     
-                    <a class={`dropdown-item ${activeHref.activeHref === '/dashboard' ? 'dropdown-active' : ''}`} href="/dashboard">Tickets</a>
+                    <a class={`dropdown-item ${props.activeHref === '/dashboard' ? 'dropdown-active' : ''}`} href="/dashboard">Tickets</a>
                 </li>
                 <li>
-                    <a class={`dropdown-item ${activeHref.activeHref === '/projects' ? 'dropdown-active' : ''}`} href="/projects">Projects</a>
+                    <a class={`dropdown-item ${props.activeHref === '/projects' ? 'dropdown-active' : ''}`} href="/projects">Projects</a>
                 </li>
                 <li class="dropdown-footer gap-2">
                 <a href='/logout' class="btn btn-error btn-soft btn-block">Sign out</a>

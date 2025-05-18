@@ -8,6 +8,7 @@ import Register from './Register';
 import Me from './auth/Me'
 import Logout from './auth/Logout'
 import Dashboard from './Dashboard';
+import ProjectsTable from './ProjectsTable';
 
 async function loadFlyonUI() {
   return import('flyonui/flyonui');
@@ -45,6 +46,7 @@ function App() {
         
         <Route element={<ProtectedRoutes  allowedRoles={['admin', 'user']} />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/projects" element={<ProjectsTable />} />
         </Route>
 
       </Routes>
