@@ -5,7 +5,7 @@ import { useUser } from './auth/UserContext';
 
 import { Icon } from '@iconify/react';
 import Header from './Header';
-import EditTaskModal from '../modals/EditTaskModal'
+import EditProjectModal from '../modals/EditProjectModal'
 import ViewTaskModal from './ViewTaskModal'
 import AddTaskModal from '../modals/AddTaskModal';
 import PencilIco from './icons/PencilIco';
@@ -115,7 +115,7 @@ const ProjectsTable = () => {
                     </tbody>
                 </table>
             </div>
-            <EditTaskModal openState={editModalOpen} id={currTicket} setOpenState={setEditModalOpen} />
+            <EditProjectModal openState={editModalOpen} id={currTicket} setOpenState={setEditModalOpen} />
             <ViewTaskModal openState={viewModalOpen} id={currTicket} setOpenState={setViewModalOpen} />
             <AddTaskModal openState={addModalOpen} id={currTicket} setOpenState={setAddModalOpen} />
         </section>
