@@ -6,8 +6,8 @@ import { useUser } from './auth/UserContext';
 import { Icon } from '@iconify/react';
 import Header from './Header';
 import EditProjectModal from './modals/EditProjectModal'
-import ViewTicketModal from './modals/ViewTicketModal'
-import AddTaskModal from './modals/AddTicketModal';
+import ViewProjectModal from './modals/ViewProjectModal'
+import AddProjectModal from './modals/AddProjectModal';
 import PencilIco from './icons/PencilIco';
 import BinIco from './icons/BinIco';
 import DetailIco from './icons/DetailIco'
@@ -116,8 +116,8 @@ const ProjectsTable = () => {
                 </table>
             </div>
             <EditProjectModal openState={editModalOpen} id={currTicket} setOpenState={setEditModalOpen} />
-            <ViewTicketModal openState={viewModalOpen} id={currTicket} setOpenState={setViewModalOpen} />
-            <AddTaskModal openState={addModalOpen} id={currTicket} setOpenState={setAddModalOpen} />
+            <ViewProjectModal openState={viewModalOpen} id={currTicket} setOpenState={setViewModalOpen} />
+            <AddProjectModal openState={addModalOpen} id={currTicket} setOpenState={setAddModalOpen} />
         </section>
     )
 }

@@ -154,7 +154,7 @@ const clickClose = () => {
                   </div>
                   <div className='w-full'>
                     <label className="label-text" htmlFor="dueDate">Due Date</label>
-                    <input type="date" className="input" id="dueDate" value={tix.due_date} readOnly />
+                    <input type="date" className="input" id="dueDate" value={new Date(tix.created_at).toISOString().split("T")[0] ?? ''} readOnly />
                   </div>
                 </div>
 
