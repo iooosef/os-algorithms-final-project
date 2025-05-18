@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useConfig } from './util/ConfigContext'
-import { useUser } from './auth/UserContext'
+import { useConfig } from '../util/ConfigContext'
+import { useUser } from '../auth/UserContext'
 
-const ViewTaskModal = (props) => {
+const EditTicketModal = (props) => {
   const { serverUrl, appName } = useConfig()
   const { user } = useUser()
   const modalRef = useRef()
@@ -96,7 +96,7 @@ const clickClose = () => {
     <div id='mdl-backdrop' className={`w-full h-full fixed left-0 top-0 flex justify-center items-center bg-black/50 ${props.openState ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <section className='w-full rounded-lg bg-white flex flex-col' style={{maxWidth: '32rem'}}>
         <div id='mdl-header' className='p-4 text-2xl font-semibold'>
-          Ticket No. {props?.id} Details
+          Edit Ticket No. {props?.id}
         </div>
         <div id='mdl-body' className='w-full pb-4 px-4'>
           {
@@ -105,56 +105,28 @@ const clickClose = () => {
 
                 <div>
                   <label className="label-text" htmlFor="title">Title</label>
-                  <input type="text" className="input" id="title" value={tix.title} readOnly/>
+                  <input type="text" className="input" id="title" value={tix.title}
+                    onChange={(e) => setTix({ ...tix, title: e.target.value })} />
                 </div>
                 <div>
                   <label class="label-text" htmlFor="description"> Ticket Description </label>
-                  <textarea class="textarea" id="description" value={tix.description}  readOnly></textarea>
+                  <textarea class="textarea" id="description" value={tix.description}
+                    onChange={(e) => setTix({ ...tix, description: e.target.value })}></textarea>
                 </div>
-                <div className='flex gap-4 justify-between'>
-                  <div className='w-full'>
-                    <label class="label-text"> Priority </label>
-                    <button type="button" class={`btn w-full ${                        
-                        tix.priority == 0 ? 'btn-error'
-                          : tix.priority == 1 ? 'btn-warning'
-                          : tix.priority == 2 ? 'btn-primary' : 'btn-accent'
-                      }`}> 
-                      {
-                        tix.priority == 0 ? 'ASAP'
-                          : tix.priority == 1 ? 'High'
-                          : tix.priority == 2 ? 'Medium' : 'Low'
-                      }
-                    </button>
-                  </div>                  
-                  <div className='w-full'>
-                    <label class="label-text"> Status </label>
-                    <button type="button" class={`btn w-full ${                        
-                        tix.status == 'Queued' ? 'btn-info'
-                          : tix.status == 'In Progress' ? 'btn-warning'
-                          : tix.status == 'Paused' ? 'btn-secondary' : 'btn-success'
-                      }`}> 
-                      { tix.status }
-                    </button>
-                  </div>
-                </div>                
-                <div className='flex justify-between w-full gap-4'>
-                  <div className='w-full'>
-                    <label className="label-text" htmlFor="title"> Assigned to </label>
-                    <input type="text" className="input" id="title" value={users.find(user => user.id === tix.assigned_to)?.username} readOnly/>
-                  </div>
-                  <div className='w-full'>
-                    <label className="label-text" htmlFor="title"> Created by </label>
-                    <input type="text" className="input" id="title" value={users.find(user => user.id === tix.created_by)?.username} readOnly/>
-                  </div>
-                </div>
-                <div className='flex justify-between w-full gap-4'>
-                  <div className='w-full'>
-                    <label className="label-text" htmlFor="dueDate">Created at</label>
-                    <input type="date" className="input" id="dueDate" value={new Date(tix.created_at).toISOString().split("T")[0] ?? ''} readOnly />
-                  </div>
-                  <div className='w-full'>
-                    <label className="label-text" htmlFor="dueDate">Due Date</label>
-                    <input type="date" className="input" id="dueDate" value={tix.due_date} readOnly />
+                <div className='mb-4'>
+                  <style>
+                    {theCustomStyleForButton}
+                  </style>
+                  <h6 class="text-base text-base-content mb-1">Status</h6>
+                  <div class="join drop-shadow">
+                    <input class="join-item btn btn-soft join-btn-info" type="radio" name="radio-15" aria-label="Queued"
+                       checked={tix.status === 'Queued'} onChange={() => setTix({ ...tix, status: 'Queued' })} />
+                    <input class="join-item btn btn-soft join-btn-warning" type="radio" name="radio-15" aria-label="In Progress"
+                       checked={tix.status === 'In Progress'} onChange={() => setTix({ ...tix, status: 'In Progress' })} />
+                    <input class="join-item btn btn-soft join-btn-secondary" type="radio" name="radio-15" aria-label="Paused"
+                       checked={tix.status === 'Paused'} onChange={() => setTix({ ...tix, status: 'Paused' })} />
+                    <input class="join-item btn btn-soft join-btn-success" type="radio" name="radio-15" aria-label="Completed"
+                       checked={tix.status === 'Completed'} onChange={() => setTix({ ...tix, status: 'Completed' })} />
                   </div>
                 </div>
 
@@ -164,10 +136,11 @@ const clickClose = () => {
         </div>
         <div id='mdl-footer' className='w-full pb-4 px-4 flex justify-end gap-4'>
           <button className="btn btn-soft btn-secondary" onClick={() => clickClose()}>Close</button>
+          <button className="btn btn-primary">Save changes</button>
         </div>
       </section>
     </div>
   )
 }
 
-export default ViewTaskModal
+export default EditTicketModal

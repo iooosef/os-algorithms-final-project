@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useConfig } from '../src/util/ConfigContext'
-import { useUser } from '../src/auth/UserContext'
+import { useConfig } from '../util/ConfigContext'
+import { useUser } from '../auth/UserContext'
 
-const InfoTaskModal = (props) => {
+const InfoTicketModal = (props) => {
   const { serverUrl } = useConfig()
   const modalRef = useRef()
   const [manuallyClosed, setManuallyClosed] = useState(false)
@@ -114,4 +114,4 @@ const InfoTaskModal = (props) => {
   )
 }
 
-export default InfoTaskModal
+export default InfoTicketModal

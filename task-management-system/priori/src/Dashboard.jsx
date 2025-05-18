@@ -5,9 +5,9 @@ import { useUser } from './auth/UserContext';
 
 import { Icon } from '@iconify/react';
 import Header from './Header';
-import EditTaskModal from '../modals/EditTaskModal'
-import ViewTaskModal from './ViewTaskModal'
-import AddTaskModal from '../modals/AddTaskModal';
+import EditTicketModal from './modals/EditTicketModal'
+import ViewTicketModal from './modals/ViewTicketModal'
+import AddTicketModal from './modals/AddTicketModal';
 import PencilIco from './icons/PencilIco';
 import BinIco from './icons/BinIco';
 import DetailIco from './icons/DetailIco'
@@ -53,12 +53,12 @@ const Dashboard = () => {
             
             <div class="border-base-content/25 w-full h-4/5 overflow-x-auto border">
                 <div className='px-4 pt-4 pb-2 flex justify-between'>
-                    <h1 className='text-2xl'>Tasks Table</h1>
+                    <h1 className='text-2xl'>Tickets Table</h1>
                     <button className='btn btn-primary'
                         onClick={() => {
                             setAddModalOpen(true);
                         }}>
-                        Add a Task
+                        Add a Ticket
                         <AddIco />
                     </button>
                 </div>
@@ -123,9 +123,9 @@ const Dashboard = () => {
                     </tbody>
                 </table>
             </div>
-            <EditTaskModal openState={editModalOpen} id={currTicket} setOpenState={setEditModalOpen} />
-            <ViewTaskModal openState={viewModalOpen} id={currTicket} setOpenState={setViewModalOpen} />
-            <AddTaskModal openState={addModalOpen} id={currTicket} setOpenState={setAddModalOpen} />
+            <EditTicketModal openState={editModalOpen} id={currTicket} setOpenState={setEditModalOpen} />
+            <ViewTicketModal openState={viewModalOpen} id={currTicket} setOpenState={setViewModalOpen} />
+            <AddTicketModal openState={addModalOpen} id={currTicket} setOpenState={setAddModalOpen} />
         </section>
     )
 }

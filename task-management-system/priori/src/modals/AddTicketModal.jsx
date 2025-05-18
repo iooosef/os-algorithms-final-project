@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useConfig } from '../src/util/ConfigContext'
-import { useUser } from '../src/auth/UserContext'
+import { useConfig } from '../util/ConfigContext'
+import { useUser } from '../auth/UserContext'
 
-const AddTaskModal = (props) => {
+const AddTicketModal = (props) => {
   const { serverUrl, appName } = useConfig()
   const { user } = useUser()
   const modalRef = useRef()
@@ -90,7 +90,7 @@ const clickClose = () => {
     <div id='mdl-backdrop' className={`w-full h-full fixed left-0 top-0 flex justify-center items-center bg-black/50 ${props.openState ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <section className='w-full rounded-lg bg-white flex flex-col' style={{maxWidth: '32rem'}}>
         <div id='mdl-header' className='p-4 text-2xl font-semibold'>
-          Add a New Task
+          Add a New Ticket
         </div>
         <div id='mdl-body' className='w-full pb-4 px-4'>
           <form className='w-full flex flex-col gap-4'>
@@ -178,11 +178,11 @@ const clickClose = () => {
         </div>
         <div id='mdl-footer' className='w-full pb-4 px-4 flex justify-end gap-4'>
           <button className="btn btn-soft btn-secondary" onClick={() => clickClose()}>Close</button>
-          <button className="btn btn-primary">Add Task</button>
+          <button className="btn btn-primary">Add Ticket</button>
         </div>
       </section>
     </div>
   )
 }
 
-export default AddTaskModal
+export default AddTicketModal

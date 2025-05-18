@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useConfig } from '../src/util/ConfigContext'
-import { useUser } from '../src/auth/UserContext'
+import { useConfig } from '../util/ConfigContext'
+import { useUser } from '../auth/UserContext'
 
 const EditProjectModal = (props) => {
   const { serverUrl, appName } = useConfig()
