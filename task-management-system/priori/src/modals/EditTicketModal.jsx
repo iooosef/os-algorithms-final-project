@@ -99,7 +99,8 @@ const editTicket = () => {
     ticket_id: props.id,
     title: tix.title,
     description: tix.description,
-    status: tix.status
+    status: tix.status,
+    user_id: user.id
   };
 
   fetch(`${serverUrl}/ticket`, {
@@ -116,7 +117,7 @@ const editTicket = () => {
       alert('Ticket updated!');   
       clickClose();
     } else {
-      alert('Failed to update ticket.');
+      alert("Error! " + data.error);
     }
   })
   .catch(err => console.error('Error updating ticket:', err));

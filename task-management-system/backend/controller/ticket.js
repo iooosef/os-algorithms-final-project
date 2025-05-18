@@ -71,27 +71,42 @@ module.exports = (db) => {
     })
 
     router.put('/', (req, res) => {
-        const { ticket_id, title, description, status } = req.body;
+        const { ticket_id, title, description, status, user_id } = req.body;
         let modelStateErrors = [];
         if (!ticket_id) modelStateErrors.push('Ticket ID is required');
         if (!title) modelStateErrors.push('Title is required');
         if (!description) modelStateErrors.push('Description is required');
         if (!status) modelStateErrors.push('Status is required');
+        if (!user_id) modelStateErrors.push('User ID is required');
         if (modelStateErrors.length > 0) return res.status(400).json({ errors: modelStateErrors });
-        
-        const updated_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        const query = `
-            UPDATE Tickets
-            SET title = ?, description = ?, status = ?, updated_at = ?
-            WHERE ticket_id = ?
-        `;
 
-        db.run(query, [ title, description, status, updated_at, ticket_id ], function (err) {
-            if (err) return res.status(500).json({ error: 'Database error' });
+        if (status === 'In Progress') {
+            const checkQuery = `
+                SELECT * FROM Tickets
+                WHERE assigned_to = ? AND status = 'In Progress' AND ticket_id <> ?
+            `;
+            db.get(checkQuery, [user_id, ticket_id], (err, row) => {
+                if (err) return res.status(500).json({ error: 'Database error' });
+                if (row) return res.status(409).json({ error: 'Another ticket is already in progress for this user' });
 
-            res.status(201).json({ message: 'Ticket updated', ticket_id: this.lastID });
-        });
-    })
+                updateTicket();
+            });
+        } else {
+            updateTicket();
+        }
 
+        function updateTicket() {
+            const updated_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            const query = `
+                UPDATE Tickets
+                SET title = ?, description = ?, status = ?, updated_at = ?
+                WHERE ticket_id = ?
+            `;
+            db.run(query, [title, description, status, updated_at, ticket_id], function (err) {
+                if (err) return res.status(500).json({ error: 'Database error' });
+                res.status(201).json({ message: 'Ticket updated', ticket_id: ticket_id });
+            });
+        }
+    });
     return router;
 }
