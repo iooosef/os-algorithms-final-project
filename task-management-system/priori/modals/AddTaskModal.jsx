@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useConfig } from './util/ConfigContext'
-import { useUser } from './auth/UserContext'
+import { useConfig } from '../src/util/ConfigContext'
+import { useUser } from '../src/auth/UserContext'
 
 const AddTaskModal = (props) => {
   const { serverUrl, appName } = useConfig()
@@ -178,7 +178,7 @@ const clickClose = () => {
         </div>
         <div id='mdl-footer' className='w-full pb-4 px-4 flex justify-end gap-4'>
           <button className="btn btn-soft btn-secondary" onClick={() => clickClose()}>Close</button>
-          <button className="btn btn-primary">Save changes</button>
+          <button className="btn btn-primary">Add Task</button>
         </div>
       </section>
     </div>
