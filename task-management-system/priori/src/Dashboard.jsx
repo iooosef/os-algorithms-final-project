@@ -53,7 +53,7 @@ const Dashboard = () => {
             
             <div class="border-base-content/25 w-full h-4/5 overflow-x-auto border">
                 <div className='px-4 pt-4 pb-2 flex justify-between'>
-                    <h1 className='text-2xl'>Tickets Table</h1>
+                    <h1 className='text-2xl'>{user.username ? `Tickets Assigned to ${user.username}` : 'Tickets Assigned to You'}</h1>
                     <button className='btn btn-primary'
                         onClick={() => {
                             setAddModalOpen(true);
@@ -113,9 +113,6 @@ const Dashboard = () => {
                                     setCurrTicket(ticket.ticket_id);
                                 }}>
                                 <DetailIco />
-                            </button>
-                            <button className="btn btn-circle btn-text btn-sm text-error" aria-label="Delete">
-                                <BinIco />
                             </button>
                         </td>
                         </tr>

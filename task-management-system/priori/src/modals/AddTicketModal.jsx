@@ -86,6 +86,38 @@ const clickClose = () => {
   setTix(null);
 }
 
+const addTicket = () => {
+  if (!serverUrl || !tix) return;
+
+  const payload = {
+    project_id: tix.project_id,
+    title: tix.title,
+    description: tix.description,
+    priority: tix.priority,
+    assigned_to: tix.assigned_to,
+    due_date: tix.due_date
+  };
+
+  fetch(`${serverUrl}/ticket`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data?.ticket_id) {
+      alert('Ticket successfully created!');
+      clickClose();
+    } else {
+      alert('Failed to create ticket.');
+    }
+  })
+  .catch(err => console.error('Error creating ticket:', err));
+};
+
   return (
     <div id='mdl-backdrop' className={`w-full h-full fixed left-0 top-0 flex justify-center items-center bg-black/50 ${props.openState ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <section className='w-full rounded-lg bg-white flex flex-col' style={{maxWidth: '32rem'}}>
@@ -159,7 +191,7 @@ const clickClose = () => {
             <div>
               <label class="label-text" for="assignedTo">Assigned to</label>
               <select className="select" id="assignedTo"
-                onChange={(e) => setTix({ ...tix, assignedTo: e.target.value })} >
+                onChange={(e) => setTix({ ...tix, assigned_to: e.target.value })} >
                   <option value="" disabled selected>Select a user</option>
                 {users?.map((user) => (
                   <option key={user.id} value={user.id}>
@@ -178,7 +210,7 @@ const clickClose = () => {
         </div>
         <div id='mdl-footer' className='w-full pb-4 px-4 flex justify-end gap-4'>
           <button className="btn btn-soft btn-secondary" onClick={() => clickClose()}>Close</button>
-          <button className="btn btn-primary">Add Ticket</button>
+          <button className="btn btn-primary" onClick={() => addTicket()}>Add Ticket</button>
         </div>
       </section>
     </div>

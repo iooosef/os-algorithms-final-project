@@ -23,5 +23,53 @@ module.exports = (db) => {
         });
     })
 
+    router.post('/', (req, res) => {
+        const { project_id, title, description, priority, assigned_to, due_date } = req.body;
+        const created_by = req.session?.user?.id;
+        let modelStateErrors = [];
+        if (!created_by) return res.status(401).json({ error: 'Unauthorized: No user in session' });
+        if (!project_id) modelStateErrors.push('Project is required');
+        if (!title) modelStateErrors.push('Title is required');
+        if (!description) modelStateErrors.push('Description is required');
+        if (!priority) modelStateErrors.push('Priority is required');
+        if (!assigned_to) modelStateErrors.push('User assignment is required');
+        if (!due_date) modelStateErrors.push('Due date is required');
+        if (modelStateErrors.length > 0) return res.status(400).json({ errors: modelStateErrors });
+        
+        const query = `
+            INSERT INTO Tickets (project_id, title, description, priority, status, created_by, assigned_to, due_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        db.run(query, [project_id, title, description, priority, 'Queued', created_by, assigned_to, due_date], function (err) {
+            if (err) return res.status(500).json({ error: 'Database error' });
+
+            res.status(201).json({ message: 'Ticket created', ticket_id: this.lastID });
+        });
+    })
+
+    router.put('/', (req, res) => {
+        const { ticket_id, title, description, status } = req.body;
+        let modelStateErrors = [];
+        if (!ticket_id) modelStateErrors.push('Ticket ID is required');
+        if (!title) modelStateErrors.push('Title is required');
+        if (!description) modelStateErrors.push('Description is required');
+        if (!status) modelStateErrors.push('Status is required');
+        if (modelStateErrors.length > 0) return res.status(400).json({ errors: modelStateErrors });
+        
+        const updated_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const query = `
+            UPDATE Tickets
+            SET title = ?, description = ?, status = ?, updated_at = ?
+            WHERE ticket_id = ?
+        `;
+
+        db.run(query, [ title, description, status, updated_at, ticket_id ], function (err) {
+            if (err) return res.status(500).json({ error: 'Database error' });
+
+            res.status(201).json({ message: 'Ticket updated', ticket_id: this.lastID });
+        });
+    })
+
     return router;
 }

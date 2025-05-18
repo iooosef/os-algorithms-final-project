@@ -92,6 +92,36 @@ const clickClose = () => {
   setTix(null);
 }
 
+const editTicket = () => {
+  if (!serverUrl || !tix || !props.id) return;
+
+  const payload = {
+    ticket_id: props.id,
+    title: tix.title,
+    description: tix.description,
+    status: tix.status
+  };
+
+  fetch(`${serverUrl}/ticket`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data?.message == 'Ticket updated') {
+      alert('Ticket updated!');   
+      clickClose();
+    } else {
+      alert('Failed to update ticket.');
+    }
+  })
+  .catch(err => console.error('Error updating ticket:', err));
+};
+
   return (
     <div id='mdl-backdrop' className={`w-full h-full fixed left-0 top-0 flex justify-center items-center bg-black/50 ${props.openState ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <section className='w-full rounded-lg bg-white flex flex-col' style={{maxWidth: '32rem'}}>
@@ -136,7 +166,7 @@ const clickClose = () => {
         </div>
         <div id='mdl-footer' className='w-full pb-4 px-4 flex justify-end gap-4'>
           <button className="btn btn-soft btn-secondary" onClick={() => clickClose()}>Close</button>
-          <button className="btn btn-primary">Save changes</button>
+          <button className="btn btn-primary" onClick={() => editTicket()}>Save changes</button>
         </div>
       </section>
     </div>
