@@ -14,7 +14,7 @@ module.exports = (db) => {
             if (!valid) return res.status(401).json({ error: 'Invalid username or password' });
 
             req.session.user = { id: user.user_id, username: user.username, role: user.role };
-            res.json({ message: 'Login successful' });
+                res.status(201).json({ user: req.session.user });
             });
         });
     });
