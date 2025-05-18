@@ -20,7 +20,7 @@ export default function GanttChart() {
     }, [serverUrl])
 
     const fetchTickets = (id) => {
-        fetch(`${serverUrl}/ticket/assigned-to?id=${id}`, {
+        fetch(`${serverUrl}/ticket/assigned-to-all?id=${id}`, {
             credentials: 'include',
         })
         .then(res => res.json())
