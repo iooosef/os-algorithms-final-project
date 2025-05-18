@@ -10,6 +10,7 @@ import Logout from './auth/Logout'
 import Dashboard from './Dashboard';
 import ProjectsTable from './ProjectsTable';
 import GanttChart from './GanttChart';
+import TicketsCreatedByTable from './TicketsCreatedByTable';
 
 async function loadFlyonUI() {
   return import('flyonui/flyonui');
@@ -49,6 +50,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/projects" element={<ProjectsTable />} />
           <Route path="/gantt" element={<GanttChart />} />
+          <Route path="/tickets-by" element={<TicketsCreatedByTable />} />
         </Route>
 
       </Routes>
