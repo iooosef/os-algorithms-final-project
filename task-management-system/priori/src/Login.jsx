@@ -37,7 +37,7 @@ const Login = () => {
             if (response.ok) {
               const data = await response.json();
               login(data);
-              navigate('/menu');
+              navigate('/dashboard');
             } else {
               const data = await response.json();
               setErrorMessage(data.error);

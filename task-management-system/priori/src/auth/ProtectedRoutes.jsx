@@ -10,7 +10,8 @@ const ProtectedRoutes = ({ allowedRoles }) => {
         console.log("redirected from ProtectedRoutes")
         return <Navigate to="/" />;
     }
-
+    console.log('user role:', user?.role);
+    console.log('allowed roles:', allowedRoles);
     const hasRole = allowedRoles ? allowedRoles.includes(user?.role) : true;
     if (!hasRole) {
         return (

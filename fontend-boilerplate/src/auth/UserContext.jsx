@@ -22,12 +22,10 @@ export const UserProvider = ({ children }) => {
         });
         if (response.ok) {
           const userData = await response.json();
-          
-          const roles = userData.role.replace(/[\[\]]/g, '').split(',');
           const user = {
-            username: userData.email,            
-            displayName: userData.displayName,
-            role: roles[0]
+            id: userData.user.id,
+            username: userData.user.username,            
+            role: userData.user.role
           }
           
           setUser(user); // Populate user context
