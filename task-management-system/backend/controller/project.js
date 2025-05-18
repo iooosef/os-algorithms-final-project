@@ -3,10 +3,22 @@ const router = express.Router();
 
 module.exports = (db) => {
     router.get('/', (req, res) => {
-        db.all(`SELECT * FROM Projects`, (err, projects) => {
+        const project_id = req.query.id;
+
+        // with query params: id
+        if (project_id) {
+            db.get(`SELECT * FROM Projects WHERE project_id = ? LIMIT 1`, [project_id], (err, project) => {
             if (err) return res.status(500).json({ error: 'Database error' });
-            res.json(projects || {}); 
-        });
+            res.json(project || {});
+            });
+        } 
+        // no query param = GET ALL
+        else {
+            db.all(`SELECT * FROM Projects`, (err, projects) => {
+                if (err) return res.status(500).json({ error: 'Database error' });
+                res.json(projects || {}); 
+            });
+        }
     });
 
     router.post('/', (req, res) => {
