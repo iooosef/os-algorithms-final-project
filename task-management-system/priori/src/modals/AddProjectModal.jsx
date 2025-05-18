@@ -19,6 +19,34 @@ const clickClose = () => {
   setProject(null);
 }
 
+const addProject = () => {
+  if (!serverUrl || !project) return;
+
+  const payload = {
+    name: project.name,
+    description: project.description
+  };
+
+  fetch(`${serverUrl}/project`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data?.project_id) {
+      alert('Project successfully created!');
+      clickClose();
+    } else {
+      alert('Failed to create project.');
+    }
+  })
+  .catch(err => console.error('Error creating project:', err));
+};
+
   return (
     <div id='mdl-backdrop' className={`w-full h-full fixed left-0 top-0 flex justify-center items-center bg-black/50 ${props.openState ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <section className='w-full rounded-lg bg-white flex flex-col' style={{maxWidth: '32rem'}}>
@@ -43,7 +71,7 @@ const clickClose = () => {
         </div>
         <div id='mdl-footer' className='w-full pb-4 px-4 flex justify-end gap-4'>
           <button className="btn btn-soft btn-secondary" onClick={() => clickClose()}>Close</button>
-          <button className="btn btn-primary">Add Project</button>
+          <button className="btn btn-primary" onClick={() => addProject()}>Add Project</button>
         </div>
       </section>
     </div>

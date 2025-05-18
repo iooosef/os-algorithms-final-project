@@ -30,7 +30,7 @@ const ProjectsTable = () => {
         fetchTickets(user.id);
         fetchAllProjects();
         
-    }, [serverUrl, editModalOpen, viewModalOpen])
+    }, [serverUrl, editModalOpen, addModalOpen, viewModalOpen])
 
     const fetchTickets = (id) => {
         fetch(`${serverUrl}/ticket/assigned-to?id=${id}`, {
@@ -90,7 +90,10 @@ const ProjectsTable = () => {
                         <tr key={project.ticket_id}>
                         <td>{project.project_id}</td>
                         <td>{project.name}</td>
-                        <td>{`${project.description.slice(0, 30).trimEnd()}${project.description.length > 30 ? "..." : ""}`}</td>
+                        <td>
+                        {`${(project?.description || '').slice(0, 30).trimEnd()}${(project?.description || '').length > 30 ? "..." : ""}`}
+                        </td>
+
                         <td className=' flex gap-4'>
                             <button className="btn btn-circle btn-text btn-sm text-accent" 
                                 onClick={() => {
@@ -106,9 +109,7 @@ const ProjectsTable = () => {
                                 }}>
                                 <DetailIco />
                             </button>
-                            <button className="btn btn-circle btn-text btn-sm text-error" aria-label="Delete">
-                                <BinIco />
-                            </button>
+
                         </td>
                         </tr>
                     ))}

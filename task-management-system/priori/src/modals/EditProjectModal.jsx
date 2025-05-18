@@ -55,6 +55,35 @@ const clickClose = () => {
   setProject(null);
 }
 
+const editProject = () => {
+  if (!serverUrl || !project) return;
+
+  const payload = {
+    name: project.name,
+    description: project.description,
+    project_id: project.project_id
+  };
+
+  fetch(`${serverUrl}/project`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data?.message == 'Project updated') {
+      alert('Project updated!');   
+      clickClose();
+    } else {
+      alert('Failed to update project.');
+    }
+  })
+  .catch(err => console.error('Error updating project:', err));
+};
+
   return (
     <div id='mdl-backdrop' className={`w-full h-full fixed left-0 top-0 flex justify-center items-center bg-black/50 ${props.openState ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
       <section className='w-full rounded-lg bg-white flex flex-col' style={{maxWidth: '32rem'}}>
@@ -83,7 +112,7 @@ const clickClose = () => {
         </div>
         <div id='mdl-footer' className='w-full pb-4 px-4 flex justify-end gap-4'>
           <button className="btn btn-soft btn-secondary" onClick={() => clickClose()}>Close</button>
-          <button className="btn btn-primary">Save changes</button>
+          <button className="btn btn-primary" onClick={() => editProject()}>Save changes</button>
         </div>
       </section>
     </div>

@@ -23,7 +23,9 @@ module.exports = (db) => {
 
     router.post('/', (req, res) => {
         const { name, description } = req.body;
-        const created_by = req.session.user.user_id;
+        const created_by = req.session?.user?.id;
+        console.log("session", req.session)
+        if (!created_by) return res.status(401).json({ error: 'Unauthorized: No user in session' });
 
         if (!name) return res.status(400).json({ error: 'Project name is required' });
 
@@ -38,6 +40,31 @@ module.exports = (db) => {
             res.status(201).json({ message: 'Project created', project_id: this.lastID });
         });
     });
+
+    router.put('/', (req, res) => {
+        const { name, description, project_id } = req.body;
+        const updated_at = new Date().toISOString().slice(0, 19).replace('T', ' '); // "YYYY-MM-DD HH:mm:SS"
+
+        if (!project_id) return res.status(400).json({ error: 'project_id is required' });
+        if (!name) return res.status(400).json({ error: 'Project name is required' });
+
+        const query = `
+            UPDATE Projects
+            SET name = ?, description = ?, updated_at = ?
+            WHERE project_id = ?
+        `;
+
+        db.run(query, [name, description, updated_at, project_id], function (err) {
+            if (err) return res.status(500).json({ error: 'Database error' });
+
+            if (this.changes === 0) {
+                return res.status(404).json({ error: 'Project not found' });
+            }
+
+            res.status(200).json({ message: 'Project updated' });
+        });
+    });
+
 
 
     return router;
