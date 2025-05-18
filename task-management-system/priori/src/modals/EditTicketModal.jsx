@@ -96,7 +96,7 @@ const editTicket = () => {
   if (!serverUrl || !tix || !props.id) return;
 
   const payload = {
-    ticket_id: props.id,
+    ticket_id: tix.ticket_id,
     title: tix.title,
     description: tix.description,
     status: tix.status,

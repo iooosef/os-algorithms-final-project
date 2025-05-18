@@ -119,7 +119,7 @@ function initDb(db) {
                       `INSERT INTO Tickets (project_id, title, description, priority, status, created_by, assigned_to, created_at, updated_at, due_date)
                       VALUES 
                         (1, 'Fix login bug', 'Users cannot log in with correct credentials.', 0, 'Completed', 1, 2, datetime('now', '-7 days'), datetime('now', '-6 days'), datetime('now', '-6 days')),
-                        (1, 'Implement dark mode', 'Add dark mode toggle in settings.', 2, 'Backlog', 2, 3, datetime('now', '-5 days'), datetime('now', '-2 days'), datetime('now', '+3 days')),
+                        (1, 'Implement dark mode', 'Add dark mode toggle in settings.', 2, 'Queued', 2, 3, datetime('now', '-5 days'), datetime('now', '-2 days'), datetime('now', '+3 days')),
                         (1, 'Database schema update', 'Add new fields to support audit logs.', 1, 'In Progress', 3, 4, datetime('now', '-6 days'), datetime('now', '-6 days'), datetime('now', '+1 day')),
                         (1, 'Optimize image loading', 'Compress images and lazy load.', 3, 'Completed', 4, 1, datetime('now', '-10 days'), datetime('now', '-7 days'), datetime('now', '-5 days')),
                         -- Tasks assigned to user 2

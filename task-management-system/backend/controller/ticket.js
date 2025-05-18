@@ -53,22 +53,39 @@ module.exports = (db) => {
         if (!project_id) modelStateErrors.push('Project is required');
         if (!title) modelStateErrors.push('Title is required');
         if (!description) modelStateErrors.push('Description is required');
-        if (!priority) modelStateErrors.push('Priority is required');
+        if (priority === undefined || priority === null) modelStateErrors.push('Priority is required');
         if (!assigned_to) modelStateErrors.push('User assignment is required');
         if (!due_date) modelStateErrors.push('Due date is required');
         if (modelStateErrors.length > 0) return res.status(400).json({ errors: modelStateErrors });
-        
-        const query = `
-            INSERT INTO Tickets (project_id, title, description, priority, status, created_by, assigned_to, due_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `;
 
-        db.run(query, [project_id, title, description, priority, 'Queued', created_by, assigned_to, due_date], function (err) {
-            if (err) return res.status(500).json({ error: 'Database error' });
+        const runInsert = () => {
+            const status = priority === 0 ? 'In Progress' : 'Queued';
+            const query = `
+                INSERT INTO Tickets (project_id, title, description, priority, status, created_by, assigned_to, due_date)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            `;
 
-            res.status(201).json({ message: 'Ticket created', ticket_id: this.lastID });
-        });
-    })
+            db.run(query, [project_id, title, description, priority, status, created_by, assigned_to, due_date], function (err) {
+                if (err) return res.status(500).json({ error: 'Database error' });
+
+                res.status(201).json({ message: 'Ticket created', ticket_id: this.lastID });
+            });
+        };
+
+        if (priority === 0) {
+            const pauseQuery = `
+                UPDATE Tickets
+                SET status = 'Paused'
+                WHERE assigned_to = ? AND status = 'In Progress'
+            `;
+            db.run(pauseQuery, [assigned_to], (err) => {
+                if (err) return res.status(500).json({ error: 'Database error during pausing existing tickets' });
+                runInsert();
+            });
+        } else {
+            runInsert();
+        }
+    });
 
     router.put('/', (req, res) => {
         const { ticket_id, title, description, status, user_id } = req.body;

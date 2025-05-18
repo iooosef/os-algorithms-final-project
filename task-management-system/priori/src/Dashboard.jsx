@@ -28,7 +28,7 @@ const Dashboard = () => {
         if (!serverUrl || !user) return;
         fetchTickets(user.id);
         
-    }, [serverUrl, editModalOpen, viewModalOpen])
+    }, [serverUrl, editModalOpen, viewModalOpen, addModalOpen])
 
     const fetchTickets = (id) => {
         fetch(`${serverUrl}/ticket/assigned-to?id=${id}`, {
